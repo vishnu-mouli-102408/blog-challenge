@@ -11,6 +11,14 @@ html {
     width: 80%; */
  } 
 
+ .w{
+    width: 85%;
+    margin: auto;
+ }
+
+ .ch{
+    margin-bottom: 0.8em;
+ }
 
 .navbar {
     padding-top: 15px;
