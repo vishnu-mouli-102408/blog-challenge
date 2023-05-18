@@ -17,6 +17,11 @@
     font-weight: bold;
 }
 
+.navbar-brand:hover{
+    color: #1abc9c !important;
+    cursor: pointer;
+}
+
 .navbar-nav  li a:hover {
     color: #1abc9c !important;
 }
