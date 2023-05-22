@@ -21,16 +21,12 @@ const postSchema = {
 const Post = mongoose.model("post", postSchema);
 
 const post1 = new Post({
-  title: "Day 1",
-  content: "Today is Monday",
+  title: "New Post",
+  content:
+    "To add a New Post, Send 'compose' as parameter. You will be redirected to Compose Page.",
 });
 
-const post2 = new Post({
-  title: "Day 2",
-  content: "Today is Tuesday",
-});
-
-const defaultItems = [post1, post2];
+const defaultItems = [post1];
 
 const homeStartingContent =
   "Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.";
@@ -40,25 +36,32 @@ const contactContent =
   "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
 
 app.get("/", function (req, res) {
-  Post.find({}).then(function (foundList) {
-    // console.log(foundList._id);
-    // console.log(foundList[0].title);
-    if (foundList.length === 0) {
-      Post.insertMany(defaultItems)
-        .then(function () {
-          console.log("Successfully Inserted");
-        })
-        .catch(function (err) {
-          console.log("Error Occurred");
+  Post.find({})
+    .then(function (foundList) {
+      // console.log(foundList._id);
+      // console.log(foundList[0].title);
+      // console.log(foundList.length + "CCC");
+      if (foundList === []) {
+        Post.create(defaultItems)
+          .then(function () {
+            console.log("Successfully Inserted");
+          })
+          .catch(function (err) {
+            // console.log(foundList.length + "EEE");
+            console.log(err);
+          });
+        // console.log(foundList.length + "DDD");
+        res.redirect("/");
+      } else {
+        res.render("home", {
+          homeStartingContent: homeStartingContent,
+          posts: foundList,
         });
-      res.redirect("/");
-    } else {
-      res.render("home", {
-        homeStartingContent: homeStartingContent,
-        posts: foundList,
-      });
-    }
-  });
+      }
+    })
+    .catch(function (err) {
+      console.log("Error! Please try again");
+    });
 });
 
 app.get("/about", function (req, res) {
