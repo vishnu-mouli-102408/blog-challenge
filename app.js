@@ -40,19 +40,14 @@ const contactContent =
 app.get("/", function (req, res) {
   Post.find({})
     .then(function (foundList) {
-      // console.log(foundList._id);
-      // console.log(foundList[0].title);
-      // console.log(foundList.length + "CCC");
-      if (foundList === []) {
+      if (foundList.length === 0) {
         Post.create(defaultItems)
           .then(function () {
             console.log("Successfully Inserted");
           })
           .catch(function (err) {
-            // console.log(foundList.length + "EEE");
             console.log(err);
           });
-        // console.log(foundList.length + "DDD");
         res.redirect("/");
       } else {
         res.render("home", {
