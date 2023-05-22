@@ -3,6 +3,10 @@
 <div class="w">
   <h1><%= postTitle %></h1>
   <p><%= postContent %></p>
+  <form action="/delete" method="post">
+    <button class="button-42" role="button">Delete Post</button>
+    <input type="hidden" name="buttonId" value="<%= postId %>" />
+  </form>
 </div>
 
 <%- include( "partials/footer"); -%>

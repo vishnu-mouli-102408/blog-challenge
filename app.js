@@ -98,10 +98,11 @@ app.get("/posts/:postId", function (req, res) {
   const requestedId = req.params.postId;
   // console.log(requestedId);
   Post.findById(requestedId).then(function (foundList) {
-    console.log(foundList);
+    // console.log(foundList);
     res.render("post", {
       postTitle: foundList.title,
       postContent: foundList.content,
+      postId: foundList._id,
     });
   });
 
@@ -118,6 +119,20 @@ app.get("/posts/:postId", function (req, res) {
   //     });
   //   }
   // });
+});
+
+app.post("/delete", function (req, res) {
+  const postId = req.body.buttonId;
+  // console.log(postId);
+
+  Post.findByIdAndRemove(postId)
+    .then(function () {
+      // console.log("Successfully Deleted");
+      res.redirect("/");
+    })
+    .catch(function (err) {
+      console.log("Error! Please try again");
+    });
 });
 
 app.listen(3000, function () {
