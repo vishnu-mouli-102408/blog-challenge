@@ -6,12 +6,14 @@ const mongoose = require("mongoose");
 
 const app = express();
 
+require("dotenv").config();
+
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://127.0.0.1:27017/BlogDB");
+mongoose.connect(process.env.SERVER_URL);
 
 const postSchema = {
   title: String,
