@@ -41,7 +41,8 @@ const contactContent =
 
 app.get("/", function (req, res) {
   Post.find({}).then(function (foundList) {
-    // console.log(foundList.content);
+    // console.log(foundList._id);
+    // console.log(foundList[0].title);
     if (foundList.length === 0) {
       Post.insertMany(defaultItems)
         .then(function () {
@@ -90,20 +91,33 @@ app.post("/compose", function (req, res) {
   //   res.redirect("/");
 });
 
-app.get("/posts/:postName", function (req, res) {
+app.get("/posts/:postId", function (req, res) {
   // console.log(req.params.postName);
-  const requestedTitle = req.params.postName;
-  posts.forEach(function (post) {
-    const storedTitle = post.title;
-    const storedContent = post.content;
-    if (_.lowerCase(requestedTitle) === _.lowerCase(storedTitle)) {
-      // console.log("Match Found");
-      res.render("post", {
-        postTitle: storedTitle,
-        postContent: storedContent,
-      });
-    }
+  // const requestedTitle = req.params.postName;
+  // console.log(req.params.postId);
+  const requestedId = req.params.postId;
+  // console.log(requestedId);
+  Post.findById(requestedId).then(function (foundList) {
+    console.log(foundList);
+    res.render("post", {
+      postTitle: foundList.title,
+      postContent: foundList.content,
+    });
   });
+
+  // forEach(function (post) {
+  //   const storedTitle = post.title;
+  //   const storedContent = post.content;
+  //   const storedId = post._id;
+
+  //   if (requestedId === storedId) {
+  //     // console.log("Match Found");
+  //     res.render("post", {
+  //       postTitle: storedTitle,
+  //       postContent: storedContent,
+  //     });
+  //   }
+  // });
 });
 
 app.listen(3000, function () {

@@ -9,9 +9,11 @@
   <h1><%= post.title %></h1>
   <p>
     <%= post.content %>
-    <a href="/posts/<%= post.title %>">Read More</a></p>
-    <% }) %>
+
+    <a href="/posts/<%= post._id %>">Read More</a>
   </p>
+  <input type="hidden" name="postId" value="<%= post._id %>" />
+  <% }) %>
 </div>
 
 <%- include( "partials/footer"); -%>
